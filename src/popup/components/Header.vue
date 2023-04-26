@@ -1,5 +1,5 @@
 <template>
-  <div class="secondary">
+  <div class="secondary gradient mb-3">
     <div
       class="d-flex flex-row align-center mt-5"
       style="padding: 0 16px 0 16px"
@@ -12,40 +12,45 @@
       />
       <div class="text-h5">{{ url || "test" }}</div>
     </div>
-    <div style="padding: 0 16px 0 16px; flex:1" class="mt-5">
+    <div style="padding: 0 16px 0 16px; flex: 1" class="mt-5">
       <div class="text-subtitle-1">Blocked Trackers</div>
-      <div class="text-h2 d-flex flex-row-reverse align-center">
+      <div
+        class="text-h2 d-flex flex-row-reverse align-center"
+        style="color: white"
+      >
         {{ trackers.length }}
       </div>
       <div class="text-subtitle-1 d-flex flex-row-reverse align-center">
-        Total: {{ requests.length }} | Blocked: {{ trackers.filter((x) => x.blocked).length }}
+        Total: {{ requests.length }} | Blocked:
+        {{ trackers.filter((x) => x.blocked).length }}
       </div>
+      <br />
     </div>
-    <v-divider></v-divider>
-    <v-list color="secondary">
-      <v-list-group
-        v-for="item in items"
-        :key="item.title"
-        v-model="item.active"
-        no-action
-      >
-        <template v-slot:activator>
-          <v-list-item-content>
-            <v-list-item-title
-              v-text="item.title + ' (' + trackers.length + ')'"
-            ></v-list-item-title>
-          </v-list-item-content>
-        </template>
-        <div v-if="requests.length >= 1">
-          <v-list-item v-for="child in trackers" :key="child.title">
-            <v-list-item-content>
-              <v-list-item-title v-text="child.title"></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </div>
-      </v-list-group>
-    </v-list>
-    <v-divider></v-divider>
+    <!-- <v-divider></v-divider> -->
+    <!-- <v-list color="secondary"> -->
+    <!--   <v-list-group -->
+    <!--     v-for="item in items" -->
+    <!--     :key="item.title" -->
+    <!--     v-model="item.active" -->
+    <!--     no-action -->
+    <!--   > -->
+    <!--     <template v-slot:activator> -->
+    <!--       <v-list-item-content> -->
+    <!--         <v-list-item-title -->
+    <!--           v-text="item.title + ' (' + trackers.length + ')'" -->
+    <!--         ></v-list-item-title> -->
+    <!--       </v-list-item-content> -->
+    <!--     </template> -->
+    <!--     <div v-if="requests.length >= 1"> -->
+    <!--       <v-list-item v-for="child in trackers" :key="child.title"> -->
+    <!--         <v-list-item-content> -->
+    <!--           <v-list-item-title v-text="child.title"></v-list-item-title> -->
+    <!--         </v-list-item-content> -->
+    <!--       </v-list-item> -->
+    <!--     </div> -->
+    <!--   </v-list-group> -->
+    <!-- </v-list> -->
+    <!-- <v-divider></v-divider> -->
   </div>
 </template>
 <script>
@@ -71,7 +76,9 @@ export default {
         if (this.url != new URL(data.info.url).hostname) {
           this.url = new URL(data.info.url).hostname;
         }
+        console.log(data);
       });
+      console.log(this.props.requests);
       this.items[0].items = this.props.requests;
     }, 200);
   },
@@ -93,3 +100,8 @@ export default {
   },
 };
 </script>
+<style>
+.gradient {
+  background: linear-gradient(to top left, #6600cc 5%, #99ccff 80%);
+}
+</style>

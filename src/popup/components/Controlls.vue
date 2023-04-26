@@ -5,7 +5,7 @@
         <div class="text-subtitle-1">Blocking is active</div>
         <v-switch
           v-model="settings.active"
-          color="primary"
+          color="deep-purple accent-4"
           style="height: 30px"
           @change="onSettingsChanged"
         ></v-switch>
@@ -14,6 +14,8 @@
         <div class="text-subtitle-1">Blocking sensitivity</div>
         <v-slider
           v-model="settings.rate"
+          color="deep-purple accent-4"
+          track-color="deep-purple accent-1"
           :min="0"
           :max="100"
           class="align-center mt-3"
@@ -25,7 +27,6 @@
         </v-slider>
       </div>
     </div>
-    <v-divider></v-divider>
   </div>
 </template>
 <script>

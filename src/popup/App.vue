@@ -1,7 +1,5 @@
 <template>
-  <div
-    style="width: 400px; height: 600px;"
-  >
+  <div style="width: 390px">
     <v-app class="d-flex flex-row">
       <Header :requests="requests"></Header>
       <Controlls></Controlls>
@@ -22,15 +20,15 @@ export default {
   mounted: function () {
     this.timer = setInterval(() => {
       browser.storage.local.get("requests").then((data) => {
-        console.log(data)
+        console.log(data);
         try {
-          if (this.requests != null && this.requests.length < data.requests.length) {
-          this.requests = data.requests;
-        }
-        } catch (e) {
-          
-        }
-       
+          if (
+            this.requests != null &&
+            this.requests.length < data.requests.length
+          ) {
+            this.requests = data.requests;
+          }
+        } catch (e) {}
       });
     }, 200);
   },
