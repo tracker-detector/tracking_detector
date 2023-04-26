@@ -1,7 +1,7 @@
 <template>
   <div class="secondary gradient mb-3">
     <div
-      class="d-flex flex-row align-center mt-5"
+      class="d-flex flex-row align-center pt-5"
       style="padding: 0 16px 0 16px"
     >
       <img
@@ -20,9 +20,11 @@
       >
         {{ trackers.length }}
       </div>
-      <div class="text-subtitle-1 d-flex flex-row-reverse align-center">
-        Total: {{ requests.length }} | Blocked:
-        {{ trackers.filter((x) => x.blocked).length }}
+      <div
+        class="text-subtitle-1 d-flex flex-row-reverse align-center"
+        style="color: white"
+      >
+        Total: {{ requests.length }} | Blocked: {{ blocked }}
       </div>
       <br />
     </div>
@@ -93,6 +95,9 @@ export default {
             .map((x) => ({
               title: x,
             }));
+    },
+    blocked: function () {
+      return this.requests.filter((req) => req.blocked).length;
     },
   },
   beforeDestroy() {
