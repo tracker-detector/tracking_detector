@@ -1,12 +1,21 @@
 <template>
-  <div style="width: 390px; height: 400px">
-    <v-app class="d-flex flex-row">
+  <div>
+    <v-app
+      style="
+        width: 390px;
+        max-height: 420px !important;
+        min-height: 420px !important;
+      "
+    >
       <Home v-if="currentPage == 0" :requests="requests" />
-      <Tracker v-else-if="currentPage == 1" :requests="requests" />
-      <Requests v-else :requests="requests" />
-      <Header :requests="requests"></Header>
-      <Controlls></Controlls>
+      <div v-else-if="currentPage == 1" style="overflow: scroll">
+        <Tracker :requests="requests" />
+      </div>
+      <div v-else-if="currentPage == 2" style="overflow: scroll">
+        <Requests :requests="requests" />
+      </div>
       <v-bottom-navigation
+        fixed
         class="grad"
         v-model="currentPage"
         :background-color="purple"
