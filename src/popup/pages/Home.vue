@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 0; margin: 0">
-    <Header :requests="requests" />
+    <Header :url="url" :faviconUrl="faviconUrl" :requests="requests" />
     <Controlls />
   </div>
 </template>
@@ -9,7 +9,7 @@
 import Header from "../components/Header.vue";
 import Controlls from "../components/Controlls.vue";
 export default {
-  props: ["requests"],
+  props: ["url", "faviconUrl", "requests"],
   components: {
     Header,
     Controlls,

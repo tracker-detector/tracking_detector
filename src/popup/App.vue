@@ -7,7 +7,12 @@
         min-height: 420px !important;
       "
     >
-      <Home v-if="currentPage == 0" :requests="requests" />
+      <Home
+        v-if="currentPage == 0"
+        :url="url"
+        :faviconUrl="faviconUrl"
+        :requests="requests"
+      />
       <div v-else-if="currentPage == 1" style="overflow: scroll">
         <Tracker :requests="requests" />
       </div>
@@ -46,7 +51,10 @@ export default {
   data: () => ({
     currentPage: 0,
     requests: [],
-    timer: undefined,
+    url: undefined,
+    faviconUrl: undefined,
+    requestsTimer: undefined,
+    infoTimer: undefined,
   }),
   methods: {
     switchPage(n) {
@@ -54,7 +62,7 @@ export default {
     },
   },
   mounted: function () {
-    this.timer = setInterval(() => {
+    this.requestsTimer = setInterval(() => {
       browser.storage.local.get("requests").then((data) => {
         console.log(data);
         try {
@@ -67,9 +75,21 @@ export default {
         } catch (e) {}
       });
     }, 200);
+
+    this.infoTimer = setInterval(() => {
+      browser.storage.local.get("info").then((data) => {
+        if (this.faviconUrl != data.info.favIconUrl) {
+          this.faviconUrl = data.info.favIconUrl;
+        }
+        if (this.url != new URL(data.info.url).hostname) {
+          this.url = new URL(data.info.url).hostname;
+        }
+      });
+    }, 200);
   },
   beforeDestroy() {
-    clearInterval(this.timer);
+    clearInterval(this.requestsTimer);
+    clearInterval(this.infoTimer);
   },
   components: {
     Home,

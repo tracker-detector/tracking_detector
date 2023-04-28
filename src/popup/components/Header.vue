@@ -10,7 +10,7 @@
         height="40px"
         style="margin-right: 10px"
       />
-      <div class="text-h5">{{ url || "test" }}</div>
+      <div class="text-h5">{{ url }}</div>
     </div>
     <div style="padding: 0 16px 0 16px; flex: 1" class="mt-5">
       <div class="text-subtitle-1">Blocked Trackers</div>
@@ -32,33 +32,7 @@
 </template>
 <script>
 export default {
-  props: ["requests"],
-  data: () => ({
-    url: undefined,
-    faviconUrl: undefined,
-    timer: null,
-    items: [
-      {
-        items: [{ title: "tracker1" }],
-        title: "Trackers",
-      },
-    ],
-  }),
-  mounted: function () {
-    this.timer = setInterval(() => {
-      browser.storage.local.get("info").then((data) => {
-        if (this.faviconUrl != data.info.favIconUrl) {
-          this.faviconUrl = data.info.favIconUrl;
-        }
-        if (this.url != new URL(data.info.url).hostname) {
-          this.url = new URL(data.info.url).hostname;
-        }
-      });
-      if (this.props && this.props.requests) {
-        this.items[0].items = this.props.requests;
-      }
-    }, 200);
-  },
+  props: ["url", "faviconUrl", "requests"],
   computed: {
     trackers: function () {
       return this.requests == null
@@ -74,9 +48,6 @@ export default {
     blocked: function () {
       return this.requests.filter((req) => req.blocked).length;
     },
-  },
-  beforeDestroy() {
-    clearInterval(this.timer);
   },
 };
 </script>
