@@ -13,10 +13,16 @@
         :faviconUrl="faviconUrl"
         :requests="requests"
       />
-      <div v-else-if="currentPage == 1" style="overflow: scroll">
+      <div
+        v-else-if="currentPage == 1"
+        style="overflow-x: scroll; height: 100%"
+      >
         <Tracker :requests="requests" />
       </div>
-      <div v-else-if="currentPage == 2" style="overflow: scroll">
+      <div
+        v-else-if="currentPage == 2"
+        style="overflow-x: scroll; height: 100%"
+      >
         <Requests :requests="requests" />
       </div>
       <v-bottom-navigation
@@ -64,7 +70,6 @@ export default {
   mounted: function () {
     this.requestsTimer = setInterval(() => {
       browser.storage.local.get("requests").then((data) => {
-        console.log(data);
         try {
           if (
             this.requests != null &&

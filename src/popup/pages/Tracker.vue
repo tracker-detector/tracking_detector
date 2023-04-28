@@ -1,7 +1,20 @@
 <template>
   <div>
-    <v-list flat style="height=100%">
-      <v-subheader>Identified Tracker</v-subheader>
+    <div v-if="trackers.length == 0">
+      <v-subheader class="deep-purple--text accent-4"
+        >Identified Tracker</v-subheader
+      >
+      <div
+        style="text-align: center; margin-top: 150px"
+        class="deep-purple--text accent-4"
+      >
+        No tracker detected for this page...
+      </div>
+    </div>
+    <v-list v-else flat style="height=100%">
+      <v-subheader class="deep-purple--text accent-4"
+        >Identified Tracker</v-subheader
+      >
       <v-list-item v-for="item in trackers" :key="item.url">
         <v-icon class="mr-2" color="deep-purple accent-4">mdi-bug</v-icon>
         <v-list-item-content>
