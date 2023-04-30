@@ -5,8 +5,7 @@ on:
     tags:
       - "*"
 
-permissions:
-  contents: read
+permissions: write-all
 
 jobs:
   build:
