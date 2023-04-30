@@ -25,6 +25,8 @@ jobs:
         run: npm run build
       - name: Get Version
         run: echo "VERSION=$(node actionUtils.js)" >> $GITHUB_ENV
+      - name: ECHO Version
+        run: echo ${{Version}}
       - name: Upload Release
         uses: thedoctor0/zip-release@0.7.1
         with:
