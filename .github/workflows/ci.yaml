@@ -2,10 +2,10 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     pull_request:
       types: [opened, reopened]
-      branches: [main]
+      branches: [master]
 
 permissions:
   contents: read
