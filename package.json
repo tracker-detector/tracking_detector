@@ -8,6 +8,7 @@
     "url": "https://github.com/HenrySchwerdt/tracking_detector.git"
   },
   "scripts": {
+    "version": "node actionUtils.js",
     "serve": "npx vite build --watch --config vite.config.js",
     "build": "npx vite build --config vite.config.js"
   },
