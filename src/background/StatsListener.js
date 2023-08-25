@@ -1,31 +1,45 @@
 import { ActiveTabListener } from "./ActiveTabListener";
+import { EventManager } from "./EventManager";
 import { Requests } from "./Request";
 const StatsListener = (() => {
   const defaultRate = 0.8;
   const defaultActive = true;
+  const defaultModelUri = browser.runtime.getURL("model/model.json");
 
   const activeConfig = {
     rate: defaultRate,
     active: defaultActive,
+    modelUri: defaultModelUri,
   };
   setInterval(() => {
     browser.storage.local.get("settings").then((data) => {
       if (data == undefined || data == null || data.settings == null) {
         browser.storage.local.set({
-          settings: { rate: defaultRate, active: defaultActive },
+          settings: {
+            rate: defaultRate,
+            active: defaultActive,
+            modelUri: defaultModelUri,
+          },
         });
       } else {
         const shouldReload =
           data.settings.active != activeConfig.active ||
           data.settings.rate != activeConfig.rate;
+        const shouldReloadModel =
+          data.settings.modelUri != activeConfig.modelUri;
         activeConfig.active = data.settings.active;
         activeConfig.rate = data.settings.rate;
+        activeConfig.modelUri = data.settings.modelUri;
+
         if (shouldReload) {
           const tabId = ActiveTabListener.getCurrentTab().id;
           browser.tabs.reload(tabId, { bypassCache: true }).then(() => {
             console.log("Current tab reloaded due to config change");
           });
           Requests.refreshDataForTab(tabId);
+        }
+        if (shouldReloadModel) {
+          EventManager.fire("NewModelUri", activeConfig.modelUri);
         }
       }
     });
@@ -36,6 +50,9 @@ const StatsListener = (() => {
     },
     getRate() {
       return activeConfig.rate;
+    },
+    getModelUri() {
+      return activeConfig.modelUri;
     },
   };
 })();

@@ -3,8 +3,8 @@
     <v-app
       style="
         width: 390px;
-        max-height: 420px !important;
-        min-height: 420px !important;
+        max-height: 530px !important;
+        min-height: 530px !important;
       "
     >
       <Home

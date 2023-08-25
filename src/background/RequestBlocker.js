@@ -1,8 +1,14 @@
 import { Model } from "./Model";
 import { FeatureExtractor } from "./FeatureExtractor";
 import { StatsListener } from "./StatsListener";
+import { EventManager } from "./EventManager";
 const RequestBlocker = (async () => {
-  let model = await Model;
+  let model = await Model(StatsListener.getModelUri());
+  EventManager.subscribe("NewModelUri", (modelUri) => {
+    Model(modelUri).then((newModel) => {
+      model = newModel;
+    });
+  });
   return {
     check(request) {
       let encoding = FeatureExtractor.encode(request);
