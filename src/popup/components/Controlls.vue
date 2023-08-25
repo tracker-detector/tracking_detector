@@ -113,10 +113,8 @@ export default {
       }
     },
     onModelChange() {
-      console.log(this.settings);
       const newActive = this.models.find((x) => x.name == this.activeModelName);
       this.settings.modelUri = newActive.url;
-      console.log(this.settings);
       this.onSettingsChanged();
     },
   },
