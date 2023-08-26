@@ -10,6 +10,7 @@ const StatsListener = (() => {
     rate: defaultRate,
     active: defaultActive,
     modelUri: defaultModelUri,
+    apiKey: undefined,
   };
   setInterval(() => {
     browser.storage.local.get("settings").then((data) => {
@@ -19,6 +20,7 @@ const StatsListener = (() => {
             rate: defaultRate,
             active: defaultActive,
             modelUri: defaultModelUri,
+            apiKey: undefined,
           },
         });
       } else {
@@ -30,6 +32,7 @@ const StatsListener = (() => {
         activeConfig.active = data.settings.active;
         activeConfig.rate = data.settings.rate;
         activeConfig.modelUri = data.settings.modelUri;
+        activeConfig.apiKey = data.settings.apiKey;
 
         if (shouldReload) {
           const tabId = ActiveTabListener.getCurrentTab().id;
@@ -53,6 +56,9 @@ const StatsListener = (() => {
     },
     getModelUri() {
       return activeConfig.modelUri;
+    },
+    getApiKey() {
+      return activeConfig.apiKey;
     },
   };
 })();

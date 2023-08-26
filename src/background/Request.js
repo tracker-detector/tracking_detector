@@ -1,4 +1,5 @@
 import { ActiveTabListener } from "./ActiveTabListener";
+import { StatsListener } from "./StatsListener";
 const CHUNK_SIZE = 100;
 
 const Requests = (() => {
@@ -25,8 +26,9 @@ const Requests = (() => {
       });
   }, 1000);
 
-  // Clean unwanted label data
-  // TODO
+  const verifyRequestData = (request) => {
+    return request["url"] && request["initiator"];
+  };
 
   return {
     add: (request) => {
@@ -35,18 +37,22 @@ const Requests = (() => {
       } else {
         requests[request.tabId] = [request];
       }
-      if (requestChunk.length < CHUNK_SIZE) {
-        requestChunk.push(request)
-      } else {
-        let now = Date.now();
-        let obj = {};
-        obj[now] = requestChunk;
-        browser.storage.local.set(obj)
-        keys.push(now)
-        browser.storage.local.set({keys: keys})
-        requestChunk = []
+      if (StatsListener.getApiKey() != undefined) {
+        if (requestChunk.length < CHUNK_SIZE) {
+          if (verifyRequestData(request)) {
+            requestChunk.push(request);
+          }
+        } else {
+          let now = Date.now();
+          let obj = {};
+          obj[now] = requestChunk;
+          browser.storage.local.set(obj);
+          keys.push(now);
+          console.log("Sended chunks: ", keys);
+          browser.storage.local.set({ keys: keys });
+          requestChunk = [];
+        }
       }
-      
     },
     refreshDataForTab: (tabid) => {
       requests[tabid] = [];
