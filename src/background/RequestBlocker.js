@@ -2,6 +2,7 @@ import { Model } from "./Model";
 import { FeatureExtractor } from "./FeatureExtractor";
 import { StatsListener } from "./StatsListener";
 import { EventManager } from "./EventManager";
+import { Whitelist } from "./Whitelist";
 const RequestBlocker = (async () => {
   let model = await Model(StatsListener.getModelUri());
   EventManager.subscribe("NewModelUri", (modelUri) => {
@@ -17,7 +18,9 @@ const RequestBlocker = (async () => {
 
       const values = result.dataSync();
       const arr = Array.from(values);
-
+      if (Whitelist.isWhitelisted(request.url)) {
+        return { predict: arr[0], blocked: false };
+      }
       return { predict: arr[0], blocked: arr[0] >= StatsListener.getRate() };
     },
   };

@@ -76,7 +76,10 @@ export default {
           browser.storage.local.get().then(data => {
             const lengths = {}
             this.chunkIds.map(x => {
-              lengths[x] = data[x].length
+              if (data[x]) {
+                lengths[x] = data[x].length || 0
+              }
+
             })
             this.lengths = lengths
           })

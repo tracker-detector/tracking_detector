@@ -1,16 +1,11 @@
 <template>
   <v-app>
-    <v-app-bar
-      color="white"
-      app
-      flat
-      dense
-    >
+    <v-app-bar color="white" app flat dense>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app>
-    <v-list-item>
+      <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="text-h6">
             Tracking Detector
@@ -20,17 +15,8 @@
 
       <v-divider></v-divider>
 
-      <v-list
-        dense
-        nav
-      >
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-
-          :to="item.to"
-        >
+      <v-list dense nav>
+        <v-list-item v-for="item in items" :key="item.title" link :to="item.to">
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
@@ -44,25 +30,25 @@
       <v-container>
         <!-- If using vue-router -->
         <router-view></router-view>
-
       </v-container>
     </v-main>
   </v-app>
 </template>
 <script>
-  export default {
-    data () {
-      return {
-        drawer: true,
-        items: [
-          { title: 'Home', to: "/" },
-          { title: 'Labels', to: '/labels' },
-          { title: 'About', to: '/about' },
-        ],
-        right: null,
-      }
-    },
-  }
+export default {
+  data() {
+    return {
+      drawer: true,
+      items: [
+        { title: "Home", to: "/" },
+        { title: "Labels", to: "/labels" },
+        { title: "Whitelist", to: "/whitelist" },
+        { title: "About", to: "/about" },
+      ],
+      right: null,
+    };
+  },
+};
 </script>
 <style>
 /* width */
