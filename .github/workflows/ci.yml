@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -27,8 +29,11 @@ jobs:
       - name: Check if version has changed
         id: check_version
         run: |
-          LATEST_TAG=$(git describe --tags --abbrev=0)
-          if [ "$LATEST_TAG" != "${{ env.VERSION }}" ]; then
+          if git rev-parse --verify --quiet refs/tags/${{ env.VERSION }} > /dev/null; then
+            echo "Tag already exists!"
+            echo "::set-output name=changed::false"
+          else
+            echo "New version detected!"
             echo "::set-output name=changed::true"
           fi
       - name: Zip Release
