@@ -2,8 +2,8 @@ name: Publish
 
 on:
   push:
-    tags:
-      - "*"
+    branches:
+      - "main"
 
 permissions: write-all
 
@@ -23,17 +23,25 @@ jobs:
       - name: Get Version
         run: echo "VERSION=$(node actionUtils.js)" >> $GITHUB_ENV
       - name: ECHO Version
-        run: echo $Version
-      - name: Upload Release
+        run: echo ${{ env.VERSION }}
+      - name: Check if version has changed
+        id: check_version
+        run: |
+          LATEST_TAG=$(git describe --tags --abbrev=0)
+          if [ "$LATEST_TAG" != "${{ env.VERSION }}" ]; then
+            echo "::set-output name=changed::true"
+          fi
+      - name: Zip Release
+        if: steps.check_version.outputs.changed == 'true'
         uses: thedoctor0/zip-release@0.7.1
         with:
           type: zip
-          filename: TrackingDetector_${{ env.VERSION}}.zip
+          filename: TrackingDetector_${{ env.VERSION }}.zip
           path: ./dist
-
-      - name: Upload Release
+      - name: Upload to GitHub
+        if: steps.check_version.outputs.changed == 'true'
         uses: ncipollo/release-action@v1.12.0
         with:
           artifacts: TrackingDetector_${{ env.VERSION }}.zip
-          tag: ${{ env.Version }}
+          tag: ${{ env.VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}

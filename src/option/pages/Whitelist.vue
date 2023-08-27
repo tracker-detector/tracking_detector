@@ -13,9 +13,7 @@
 
     <v-list dense nav class="mt-3">
       <v-list-item v-for="host in Object.keys(whiteList)" :key="host">
-        <v-list-item-content>
-          <v-list-item-title>{{ host }}</v-list-item-title>
-        </v-list-item-content>
+        <v-list-item-title>{{ host }}</v-list-item-title>
         <v-list-item-action>
           <v-btn icon @click="removeHost(host)">
             <v-icon color="red">mdi-delete</v-icon>

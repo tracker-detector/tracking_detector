@@ -43,7 +43,6 @@ export default {
         { title: "Home", to: "/" },
         { title: "Labels", to: "/labels" },
         { title: "Whitelist", to: "/whitelist" },
-        { title: "About", to: "/about" },
       ],
       right: null,
     };
