@@ -110,4 +110,4 @@ This vector includes a padding at the beginning the encoded url and the addition
 
 
 ## Installation
-You can directly install the extension from the public folder when Chrome developer options are enabled.
+You can directly install the extension from the public folder when Chrome developer options are enabled.# td_train_on_surf
